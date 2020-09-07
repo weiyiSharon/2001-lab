@@ -64,3 +64,19 @@ p = "aa"
 matcher = KmpMatcher(p,s)
 matcher.computePrefix()
 #matcher.kmpSearch()
+
+
+"""
+#computePrefix part
+    Args:
+    self._pattern : pattern to build
+
+    computePrefix = [0, 0]
+    if self._prefix[pos] not in self._validChar
+	exit()
+    for pos=1, k=0;pos < len(self._pattern);++pos:----------------------pos, k: pointers to kmpSearch
+        while k > 0 and self._pattern[k] != self._pattern[pos]: ---------------fail then jump until a match or k == 0
+        k = next[k]
+        if p[pos] == p[k]: ++k
+        self._prefix[pos] = k  --------------------------append k to self._prefix 
+"""
