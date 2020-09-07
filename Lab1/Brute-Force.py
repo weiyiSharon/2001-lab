@@ -1,32 +1,34 @@
-import time
-def searchIndex(S, T):
-    s, t, pos, loop = 0, 0, 0, 0
-    S_len = len(S)
-    T_len = len(T)
-    while (s < S_len and t < T_len):
-        loop = loop + 1
-        if S[s] == T[t]:
-            s += 1
-            t += 1
-        else:
-            pos += 1
-            s = pos
-            t = 0
+class BFMatcher(object):
+    def __init__(self, pattern, string):
+        self._pattern = pattern.upper()
+        self._string = string.upper()
+        self._validChar = ['A', 'T', 'G', 'C', 'N']
+        for char in self._pattern:
+            if(char not in self._validChar):
+                print("Error: pattern contains invalid DNA nucleotides")
+                exit()
+    #An implementation of the Knuth-Morris-Pratt algorithm for linear time string matching
+    def bfSearch(self):
+        found = False
+        for pos in range(0, len(self._string)):
+            s_ptr = pos
+            p_ptr = 0
+            while p_ptr < len(self._pattern):
+                if(self._string[s_ptr] == self._pattern[p_ptr]):
+                    s_ptr += 1
+                    p_ptr += 1
+                else:
+                    break
+                if p_ptr == len(self._pattern):
+                    print("Match found at position: " + str(pos+1))
+        
+            
 
-    if t == T_len:
-        return pos, loop
-    else:
-        return -1, loop
 content = ""
 with open('./Testing/GCF_000006645.1_ASM664v1_genomic.fna', 'r') as fna:
     content = fna.read()
 
-# s = input("Enter the main string: ")
-# t = input("Enter the substring: ")
-# testingStr = "AACACACATGTCTATGAGTGTGAAATG"
-testingStr = "AAAAAAAAAAAAAAAAAAAAAA"
-tic = time.perf_counter()
-result = searchIndex(content, testingStr)
-toc = time.perf_counter()
-print(f"Time spent {toc - tic} seconds")
-print(f"Loop times: {result[1]} pos: {result[0]}")
+testingStr = "ACCCCT"
+matcher = BFMatcher(testingStr , content)
+matcher.bfSearch()
+
