@@ -34,6 +34,7 @@ class KmpMatcher(object):
         self.computePrefix()
         #Number of characters matched
         match = 0
+        position=[]
         found = False
 
         for pos in range(0, len(self._string)):
@@ -50,10 +51,13 @@ class KmpMatcher(object):
                 match += 1
             #Pattern found
             if(match == len(self._pattern)):
-                print("Match found at position: " + str(pos-match+2))
+                #print("Match found at position: " + str(pos-match+2))
+                position.append(pos-match+2)
+                             
                 found = True
                 match = self._prefix[match-1]
-
+        print("Match found at position: ")        
+        print(' '.join(map(str, position)))
         if(found == False):
             print("Sorry '" + self._pattern + "'" + " was not found ")
 
@@ -64,3 +68,44 @@ p = "aa"
 matcher = KmpMatcher(p,s)
 matcher.computePrefix()
 #matcher.kmpSearch()
+
+"""
+computePrefix(self):
+    Args:
+    self._pattern : pattern to build
+
+    computePrefix = [0, 0]
+    if self._prefix[pos] not in self._validChar
+	exit()
+    for pos=1, k=0;pos < len(self._pattern);++pos:----------------------pos, k: positions to KmpSearch
+        while k > 0 and self._pattern[k] != self._pattern[pos]: ---------------fail then jump until a match or k == 0
+        k = next[k]
+        if p[pos] == p[k]: ++k
+        self._prefix.append(k)
+    return self._prefix
+
+
+
+KmpSearch(s):
+
+Args:
+	self._string= s :input string 
+	self._pattern[]= p :pattern to search 
+	pos : position of s
+
+
+position=[]--------------------------------------------------matched index             
+next=computePrefix(p)-------------------------------------------build next table
+
+for pos=0,match=0;pos<len(self._string);++pos:------------------------------------pos,match: position of s and p respectively
+    while match>0 and s[pos] !=p[match]:-----------------------------fail then jump until a match or pos==0
+        match=next[match]
+    if s[pos]==p[match]:-----------------------------------------match then check next pair(match++,pos++)
+        ++match
+    if match==len(p):------------------------------------------find a full match 
+        position.append(pos-match+2) -----------------------------------get ans lsit
+        match=next[match-1]---------------------------------------------jump as it failed
+
+
+"""
+
